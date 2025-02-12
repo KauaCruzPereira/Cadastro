@@ -52,14 +52,15 @@
         </div>
 
    </div>
-<script>
-const cidadesPorEstado = {
-            sc: ["Jaguaruna", "Tubarão", "Florianópolis"],
-            rs: ["Gramado", "Alecrim", "Porto Alegre"],
-            pr: ["Cascavel", "Londrina", "Curitiba"]
-}
+<script type="module">
+    import {salvar} from './update.js'
+    const cidadesPorEstado = {
+        sc: ["Jaguaruna", "Tubarão", "Florianópolis"],
+        rs: ["Gramado", "Alecrim", "Porto Alegre"],
+        pr: ["Cascavel", "Londrina", "Curitiba"]
+    }
 
-function atualizarCidades() {
+    function atualizarCidades() {
             const estadoSelecionado = document.getElementById("estado").value
             const cidadeSelect = document.getElementById("cidade")
 
@@ -200,20 +201,7 @@ function editar(pessoa, index){
    }
 }
 
-function salvar(index){
-    let dados = JSON.parse(localStorage.getItem('pessoas')) || []
 
-    dados[index] = {
-     nome : document.getElementById('nome').value,
-     tel : document.getElementById('tel').value,
-     estado : document.getElementById('estado').value,
-     cidade : document.getElementById('cidade').value
-}
-
-    localStorage.setItem('pessoas', JSON.stringify(dados))
-
-    document.location.reload()
-}
 
 function remover(nome){
     let dados = JSON.parse(localStorage.getItem('pessoas')) || []

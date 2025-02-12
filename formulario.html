@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="sent">
+        <div id="bgsent"></div>
+        <div id="modalsent"></div>
+    </div>
+     <header>
+       <button id="form"><a href="formulario.html">Formulário</a></button>
+       <button id="list"><a href="pagina02.html">Lista</a></button>
+     </header>
+  
+    <section>
+        <h2>Preencha os dados.</h2>
+        <label for="nome">Nome Completo</label>
+        <input type="text" name="nome" id="nome" required>
+
+        <label for="tel">Telefone</label>
+        <input type="tel" name="tel" id="tel" maxlength="11" required>
+
+        <label for="estado">Estado</label>
+        <select name="estado" id="estado" required onchange="atualizarCidades()">
+            <option value="" disabled selected>Selecione um estado</option>
+            <option value="sc">Santa Catarina</option>
+            <option value="rs">Rio Grande do Sul</option>
+            <option value="pr">Paraná</option>
+
+        </select>
+        <label for="cidade">Cidade</label>
+        <select name="cidade" id="cidade" required>
+            <option value=""disabled selected>Selecione um estado primeiro</option>
+        </select>
+
+        <button onclick="enviar()">Enviar</button>
+       
+
+      </section>  
+    
+    <script>
+        const cidadesPorEstado = {
+            sc: ["Jaguaruna", "Tubarão", "Florianópolis"],
+            rs: ["Gramado", "Alecrim", "Porto Alegre"],
+            pr: ["Cascavel", "Londrina", "Curitiba"]
+        };
+
+        function atualizarCidades() {
+            const estadoSelecionado = document.getElementById("estado").value
+            const cidadeSelect = document.getElementById("cidade")
+
+            cidadeSelect.innerHTML = '<option value="" disabled selected>Selecione uma cidade</option>';
+
+            if (estadoSelecionado) {
+                cidadesPorEstado[estadoSelecionado].forEach(cidade => {
+                    let opcao = document.createElement("option")
+                    opcao.value = cidade.toLowerCase()
+                    opcao.textContent = cidade;
+                    cidadeSelect.appendChild(opcao)
+                });
+            }
+        }
+  
+    function enviar(){
+    const sent = document.getElementById('sent')
+    const bgsent = document.getElementById('bgsent')
+    const modalsent = document.getElementById('modalsent')
+
+    sent.style.display = 'flex'
+    modalsent.innerHTML = '<strong>Dados Enviados com sucesso!</strong>'
+
+    const closebutton = document.createElement('button')
+   closebutton.textContent = 'Ok!'
+   closebutton.classList.add('closebutton')
+   modalsent.appendChild(closebutton)
+
+   closebutton.onclick = sair
+   function sair(){
+        sent.style.display = 'none'
+        
+   }
+
+    bgsent.onclick = sair
+   function sair(){
+        sent.style.display = 'none'
+        document.location.reload()
+   }
+
+    var nome = document.getElementById('nome').value
+    var tel = document.getElementById('tel').value
+    var estado = document.getElementById('estado').value
+    var cidade = document.getElementById('cidade').value
+
+    var formulario = {
+        nome, 
+        tel,
+        estado, 
+        cidade, 
+    }
+    
+        let dados = JSON.parse(localStorage.getItem('pessoas')) || []
+        dados.push(formulario);
+        localStorage.setItem('pessoas', JSON.stringify(dados))
+    }
+   </script>
+</body>
+</html>

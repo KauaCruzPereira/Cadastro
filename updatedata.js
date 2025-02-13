@@ -13,7 +13,3 @@ export function salvar(index){
 
     document.location.reload()
 }
-
-export function teste () {
-    console.log('aaaaa')
-}

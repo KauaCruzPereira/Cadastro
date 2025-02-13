@@ -44,177 +44,21 @@
         </div>
 
         <div id="modalform2">
-            </select>
             <label for="cidade">Cidade</label>
             <select name="cidade" id="cidade" required>
                 <option value=""disabled selected>Selecione um estado primeiro</option>
             </select>
         </div>
-
    </div>
 <script type="module">
-    import {salvar} from './update.js'
-    const cidadesPorEstado = {
-        sc: ["Jaguaruna", "Tubarão", "Florianópolis"],
-        rs: ["Gramado", "Alecrim", "Porto Alegre"],
-        pr: ["Cascavel", "Londrina", "Curitiba"]
-    }
-
-    function atualizarCidades() {
-            const estadoSelecionado = document.getElementById("estado").value
-            const cidadeSelect = document.getElementById("cidade")
-
-            cidadeSelect.innerHTML = '<option value="" disabled selected>Selecione uma cidade</option>'
-
-            if (estadoSelecionado) {
-                cidadesPorEstado[estadoSelecionado].forEach(cidade => {
-                    let opcao = document.createElement("option")
-                    opcao.value = cidade.toLowerCase()
-                    opcao.textContent = cidade;
-                    cidadeSelect.appendChild(opcao)
-                });
-            }
-        }
-
-    function exibir(){
-        const msg = document.getElementById('msg')
-        let dados = JSON.parse(localStorage.getItem('pessoas'))
-
-if (dados == null){
-    msg.innerHTML = ('Não há dados salvos')
-   }
-
+    import {salvar} from './updatedata.js'
+    import {remover} from './removedata.js'
+    import {atualizarCidades} from './choosecity.js'
+    import {editar} from './editdata.js'
+    import {exibir} from './displaydata.js'
    
-    dados.forEach(function(pessoa, index) {
-        const linha = document.createElement('div')
-        linha.classList.add('linha')
-
-        const botoes = document.createElement('div')
-        botoes.classList.add('coluna')
-    
-        const botaoedit = document.createElement('button')
-        botoes.appendChild(botaoedit)
-        botaoedit.onclick = function(){
-            editar(pessoa, index)
-        }
-
-        const botaoremove = document.createElement('button')
-        botoes.appendChild(botaoremove)
-        botaoremove.onclick = function (){
-            remover(pessoa.nome)
-        }
-
-        botaoedit.textContent = 'Editar'
-        botaoremove.textContent = 'Remover'
-
-        const nomecol = document.createElement('div')
-        const telcol = document.createElement('div')
-        const estadocol = document.createElement('div')
-        const cidadecol = document.createElement('div')
-
-        let nome = document.createElement('div')
-        nome.innerHTML += `●${pessoa.nome}`
-        
-
-        let tel = document.createElement('div')
-            tel.innerHTML += `${pessoa.tel}`
-            
-            
-        let estado =  document.createElement('div')
-        estado.innerHTML += `${pessoa.estado}`
-        
-
-
-        let cidade = document.createElement('div')
-        cidade.innerHTML += `${pessoa.cidade}`
-        
-        
-        linha.appendChild(nomecol)
-        nomecol.appendChild(nome)
-        nomecol.style.width = '30%'
-
-        linha.appendChild(telcol)
-        telcol.appendChild(tel)
-        telcol.classList.add('coluna')
-        telcol.style.flex = 0.8
-
-
-        linha.appendChild(estadocol)
-        estadocol.appendChild(estado)
-        estadocol.classList.add('coluna')
-        estadocol.style.flex = 0.3
-    
-
-        linha.appendChild(cidadecol)
-        cidadecol.appendChild(cidade)
-        cidadecol.classList.add('coluna')
-
-        linha.appendChild(botoes)
-    
-        msg.appendChild(linha)
-
-    })
-}
-exibir()
-        
-function editar(pessoa, index){
-   let dados = JSON.parse(localStorage.getItem('pessoas')) || []
-   let nome = document.getElementById('nome').value = pessoa.nome
-   let tel = document.getElementById('tel').value = pessoa.tel
-   let estado = document.getElementById('estado').value = pessoa.estado
-   atualizarCidades()
-   let cidade = document.getElementById('cidade').value = pessoa.cidade
-
-   const editmodal = document.getElementById('editmodal')
-   const modalform = document.getElementById('modalform')
-   const buttons = document.createElement('div')
-   buttons.classList.add('buttons')
-
-   editmodal.style.display = 'flex'
-   modalform.style.display = 'flex'
-
-   backgroundmodal.onclick = sair
-   function sair(){
-        editmodal.style.display = 'none'
-   }
-  
-   modal.innerHTML = '<strong>Editar dados:<strong>'
-   modal.appendChild(modalform) 
-   
-   const closebutton = document.createElement('button')
-   closebutton.textContent = 'Cancelar'
-   closebutton.classList.add('closebutton')
-   buttons.appendChild(closebutton)
-   closebutton.onclick = sair
-   function sair(){
-        editmodal.style.display = 'none'
-        modalform.style.display = 'none'
-   }
-
-   const donebutton = document.createElement('button')
-   donebutton.textContent = 'Concluido'
-   donebutton.classList.add('donebutton')
-   buttons.appendChild(donebutton)
-   modal.appendChild(buttons)
-   donebutton.onclick = function(){
-    salvar(index)
-   }
-}
-
-
-
-function remover(nome){
-    let dados = JSON.parse(localStorage.getItem('pessoas')) || []
-    let index = dados.findIndex(function (param) {
-        return param.nome == nome
-    })
-    console.log(index)
-    dados.splice(index, 1)
-    console.log(dados)
-    localStorage.setItem('pessoas', JSON.stringify(dados))
-    document.location.reload()
-}
-
+   const choosecity = document.getElementById('estado')
+     choosecity.onchange = atualizarCidades
 </script>
 
 </body>

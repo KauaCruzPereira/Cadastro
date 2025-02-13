@@ -37,75 +37,17 @@
             <option value=""disabled selected>Selecione um estado primeiro</option>
         </select>
 
-        <button onclick="enviar()">Enviar</button>
-       
-
+        <button onclick="enviar()" id="sendbutton">Enviar</button>
       </section>  
     
-    <script>
-        const cidadesPorEstado = {
-            sc: ["Jaguaruna", "Tubarão", "Florianópolis"],
-            rs: ["Gramado", "Alecrim", "Porto Alegre"],
-            pr: ["Cascavel", "Londrina", "Curitiba"]
-        };
-
-        function atualizarCidades() {
-            const estadoSelecionado = document.getElementById("estado").value
-            const cidadeSelect = document.getElementById("cidade")
-
-            cidadeSelect.innerHTML = '<option value="" disabled selected>Selecione uma cidade</option>';
-
-            if (estadoSelecionado) {
-                cidadesPorEstado[estadoSelecionado].forEach(cidade => {
-                    let opcao = document.createElement("option")
-                    opcao.value = cidade.toLowerCase()
-                    opcao.textContent = cidade;
-                    cidadeSelect.appendChild(opcao)
-                });
-            }
-        }
-  
-    function enviar(){
-    const sent = document.getElementById('sent')
-    const bgsent = document.getElementById('bgsent')
-    const modalsent = document.getElementById('modalsent')
-
-    sent.style.display = 'flex'
-    modalsent.innerHTML = '<strong>Dados Enviados com sucesso!</strong>'
-
-    const closebutton = document.createElement('button')
-   closebutton.textContent = 'Ok!'
-   closebutton.classList.add('closebutton')
-   modalsent.appendChild(closebutton)
-
-   closebutton.onclick = sair
-   function sair(){
-        sent.style.display = 'none'
-        
-   }
-
-    bgsent.onclick = sair
-   function sair(){
-        sent.style.display = 'none'
-        document.location.reload()
-   }
-
-    var nome = document.getElementById('nome').value
-    var tel = document.getElementById('tel').value
-    var estado = document.getElementById('estado').value
-    var cidade = document.getElementById('cidade').value
-
-    var formulario = {
-        nome, 
-        tel,
-        estado, 
-        cidade, 
-    }
-    
-        let dados = JSON.parse(localStorage.getItem('pessoas')) || []
-        dados.push(formulario);
-        localStorage.setItem('pessoas', JSON.stringify(dados))
-    }
+    <script type="module">
+      import {atualizarCidades} from './choosecity.js'
+      import {enviar} from './senddata.js'
+      
+    const choosecity = document.getElementById('estado')
+    choosecity.onchange = atualizarCidades 
+    const senddata = document.getElementById('sendbutton')
+    senddata.onclick = enviar 
    </script>
 </body>
 </html>
